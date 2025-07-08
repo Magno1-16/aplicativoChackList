@@ -52,6 +52,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnLimpar.setOnClickListener(v -> controller.limparButton(boxEmail, boxSenha));
     }
 }
