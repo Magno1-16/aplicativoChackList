@@ -7,29 +7,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.WindowCompat;
 
 import com.example.aplicativochacklist.R;
-import com.magno.aplicativochacklist.controller.LoginController;
+import com.magno.aplicativochacklist.bancoDBdao.ChackListDBController;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText boxEmail, boxSenha;
-    private Button btnLogin, btnLimpar;
-    private LoginController controller;
+    private Button btnLogin;
+    private ChackListDBController controllerDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         setContentView(R.layout.activity_login);
 
-        controller = new LoginController(this);
+        controllerDB = new ChackListDBController(this);
 
         boxEmail = findViewById(R.id.email);
         boxSenha = findViewById(R.id.senha);
         btnLogin = findViewById(R.id.logar);
-        btnLimpar = findViewById(R.id.limpar);
 
         btnLogin.setOnClickListener(v -> {
             String email = boxEmail.getText().toString().trim();
@@ -37,20 +34,17 @@ public class LoginActivity extends AppCompatActivity {
 
             if (email.isEmpty() || senha.isEmpty()) {
                 Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-            } else {
-                String emailSalvo = controller.getEmailSalvo();
-                String senhaSalva = controller.getSenhaSalva();
+                return;
+            }
 
-                if (!email.equals(emailSalvo) || !senha.equals(senhaSalva)) {
-                    Toast.makeText(this, "Email ou senha incorretos", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, MainActivity.class));
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
+            boolean valido = controllerDB.validarLogin(email, senha);
+            if (valido) {
+                Toast.makeText(this, "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, "Email ou senha incorretos", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

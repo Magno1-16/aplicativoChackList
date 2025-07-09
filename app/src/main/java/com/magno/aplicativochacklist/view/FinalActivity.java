@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.aplicativochacklist.R;
 import com.magno.aplicativochacklist.model.ChackModel;
 import com.magno.aplicativochacklist.model.EscolhasModel;
+
 import java.util.ArrayList;
 
 public class FinalActivity extends AppCompatActivity {
@@ -45,8 +49,9 @@ public class FinalActivity extends AppCompatActivity {
         resultado.append("✅ Obrigado por usar nosso checklist de viagem!\nBoa viagem! ✈️🌴");
         resultadoView.setText(resultado.toString());
     }
-
     public void encerrarAplicacao(View view) {
+        Toast.makeText(this, "Obrigado por utilizar nosso aplicativo", Toast.LENGTH_SHORT).show();
         finishAffinity();
+
     }
 }

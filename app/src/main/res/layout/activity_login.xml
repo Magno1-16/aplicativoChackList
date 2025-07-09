@@ -1,81 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#128290">
-
-    <ImageView
-        android:id="@+id/tela"
-        android:layout_width="251dp"
-        android:layout_height="251dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tela" />
-
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="255dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="300dp"
-        android:hint="Email:"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/senha"
-        android:layout_width="255dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="220dp"
-        android:hint="Senha: "
-        android:textColor="@color/white"
-        android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/logar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="152dp"
-        android:text="Login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="#31AAA0"/>
+    android:background="#128290"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:paddingTop="16dp"
+    android:paddingBottom="32dp"
+    android:paddingHorizontal="24dp">
 
     <TextView
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="384dp"
         android:text="Login Account"
         android:textColor="@color/white"
-        android:textColorLink="#B25757"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginBottom="16dp" />
+
+    <ImageView
+        android:id="@+id/tela"
+        android:layout_width="251dp"
+        android:layout_height="251dp"
+        android:layout_marginBottom="32dp"
+        app:srcCompat="@drawable/tela" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Email:"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/senha"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Senha:"
+        android:textColor="@color/white"
+        android:textColorHint="@android:color/white"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/logar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:backgroundTint="#31AAA0"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/limpar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
         android:text="Limpar Informações"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="#31AAA0"/>
+        android:backgroundTint="#31AAA0" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

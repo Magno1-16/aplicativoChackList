@@ -1,82 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#128290">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="251dp"
-        android:layout_height="251dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tela" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="269dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="252dp"
-        android:text="Register Account"
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/emailC"
-        android:layout_width="269dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="52dp"
-        android:hint="Email:"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/senhaC"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/senhaC"
-        android:layout_width="269dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="132dp"
-        android:hint="Senha:"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/nomeC"
-        android:layout_width="269dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="52dp"
-        android:hint="Nome:"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/emailC"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/registrar"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
-        android:backgroundTint="#31AAA0"
-        android:text="Registrar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="32dp"
+        android:paddingHorizontal="24dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="251dp"
+            android:layout_height="251dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/tela" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register Account"
+            android:textColor="@color/white"
+            android:textSize="34sp"
+            android:layout_marginBottom="24dp" />
+
+        <EditText
+            android:id="@+id/nomeC"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nome:"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/emailC"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Email:"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/senhaC"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Senha:"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/registrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrar"
+            android:backgroundTint="#31AAA0" />
+
+        <TextView
+            android:id="@+id/tvJaTenhoConta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Já tem uma conta? Faça login"
+            android:textColor="#BBDEFB"
+            />
+
+
+    </LinearLayout>
+</ScrollView>
