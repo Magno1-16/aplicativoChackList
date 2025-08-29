@@ -17,9 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Resultados aqui"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textColorLink="#B25757"/>
+            android:textColorLink="#B25757" />
+
     </ScrollView>
 
     <Button
@@ -29,5 +30,6 @@
         android:text="Encerrar"
         android:layout_marginTop="16dp"
         android:onClick="encerrarAplicacao"
-        android:backgroundTint="#31AAA0"/>
+        android:backgroundTint="#31AAA0"
+        android:textColor="@android:color/white"/>
 </LinearLayout>

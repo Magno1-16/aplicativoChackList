@@ -1,57 +1,47 @@
 package com.magno.aplicativochacklist.view;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplicativochacklist.R;
-import com.magno.aplicativochacklist.model.ChackModel;
-import com.magno.aplicativochacklist.model.EscolhasModel;
+import com.magno.aplicativochacklist.controller.ItemController;
+import com.magno.aplicativochacklist.model.ItemModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FinalActivity extends AppCompatActivity {
 
-    private TextView resultadoView;
-    private Button btnFinalizar;
+    private TextView txtResultado;
+    private ItemController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final);
 
-        resultadoView = findViewById(R.id.txtResultado);
-        btnFinalizar = findViewById(R.id.btnEncerrar);
+        txtResultado = findViewById(R.id.txtResultado);
+        controller = new ItemController(this);
 
-        ArrayList<ChackModel> listaChack = (ArrayList<ChackModel>) getIntent().getSerializableExtra("listaChack");
-        ArrayList<EscolhasModel> listaEscolhas = (ArrayList<EscolhasModel>) getIntent().getSerializableExtra("listaEscolhas");
-
-        StringBuilder resultado = new StringBuilder("Resumo das escolhas:\n\n");
-
-        for (ChackModel item : listaChack) {
-            String status = item.getSelecionado() == null ? "Sem resposta" : (item.getSelecionado() ? "Sim" : "Não");
-            resultado.append("Categoria: ").append(item.getCategoria())
-                    .append("\nItens: ").append(item.getNome())
-                    .append("\nResposta: ").append(status).append("\n\n");
-        }
-
-        for (EscolhasModel item : listaEscolhas) {
-            String status = item.getSelecionado2() == null ? "Sem resposta" : (item.getSelecionado2() ? "Sim" : "Não");
-            resultado.append("Categoria: ").append(item.getCategoria2())
-                    .append("\nItens: ").append(item.getNome2())
-                    .append("\nResposta: ").append(status).append("\n\n");
-        }
-
-        resultado.append("✅ Obrigado por usar nosso checklist de viagem!\nBoa viagem! ✈️🌴");
-        resultadoView.setText(resultado.toString());
+        exibirItensSelecionados();
     }
-    public void encerrarAplicacao(View view) {
-        Toast.makeText(this, "Obrigado por utilizar nosso aplicativo", Toast.LENGTH_SHORT).show();
-        finishAffinity();
 
+    private void exibirItensSelecionados() {
+        List<ItemModel> lista = controller.listarItens();
+        StringBuilder builder = new StringBuilder();
+
+        for (ItemModel item : lista) {
+            if (item.isSelecionado()) {
+                builder.append("- ").append(item.getNome())
+                        .append(" (").append(item.getCategoria()).append(")\n");
+            }
+        }
+
+        if (builder.length() == 0) {
+            builder.append("Nenhum item selecionado.");
+        }
+
+        txtResultado.setText(builder.toString());
     }
 }

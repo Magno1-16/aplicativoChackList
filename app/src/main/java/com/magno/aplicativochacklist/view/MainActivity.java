@@ -1,95 +1,92 @@
 package com.magno.aplicativochacklist.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.Toast;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.aplicativochacklist.R;
-import com.magno.aplicativochacklist.bancoDBdao.ChackListDBController;
-import com.magno.aplicativochacklist.controller.ChackController;
+import com.magno.aplicativochacklist.R;
+import com.magno.aplicativochacklist.bancoDBdao.ChackListDB;
 import com.magno.aplicativochacklist.model.ChackModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RadioButton radioSim1, radioNao1;
-    private RadioButton radioSim2, radioNao2;
-    private RadioButton radioSim3, radioNao3;
-    private RadioButton radioSim4, radioNao4;
-    private RadioButton radioSim5, radioNao5;
-    private ChackController controller;
-    private ChackListDBController controllerDB;
+    private LinearLayout layoutItens;
+    private Button btnResumo;
+    private ChackListDB db;
+    private List<ChackModel> itens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_escolhas);
 
-        controller = new ChackController();
-        controllerDB = new ChackListDBController(this);
+        layoutItens = findViewById(R.id.layoutContainer);
+        btnResumo = findViewById(R.id.confirmarEscolhas);
 
-        radioSim1 = findViewById(R.id.radioSim1);
-        radioNao1 = findViewById(R.id.radioNao1);
-        radioSim2 = findViewById(R.id.radioSim2);
-        radioNao2 = findViewById(R.id.radioNao2);
-        radioSim3 = findViewById(R.id.radioSim3);
-        radioNao3 = findViewById(R.id.radioNao3);
-        radioSim4 = findViewById(R.id.radioSim4);
-        radioNao4 = findViewById(R.id.radioNao4);
-        radioSim5 = findViewById(R.id.radioSim5);
-        radioNao5 = findViewById(R.id.radioNao5);
+        db = new ChackListDB(this);
+
+        carregarItens();
+
+        btnResumo.setOnClickListener(v -> {
+            // Aqui você pode enviar os dados para a FinalActivity
+        });
     }
 
-    public void onConfirmar(View view) {
-        // Verifica se todas as perguntas foram respondidas
-        if (!estaSelecionado(radioSim1, radioNao1) ||
-                !estaSelecionado(radioSim2, radioNao2) ||
-                !estaSelecionado(radioSim3, radioNao3) ||
-                !estaSelecionado(radioSim4, radioNao4) ||
-                !estaSelecionado(radioSim5, radioNao5)) {
+    private void carregarItens() {
+        layoutItens.removeAllViews(); // Limpa o layout antes de preencher
+        itens = db.buscarTodosChacks(); // Busca do banco
 
-            Toast.makeText(this, "Por favor, responda todas as perguntas.", Toast.LENGTH_SHORT).show();
-            return; // Não permite continuar
-        }
+        for (ChackModel item : itens) {
+            LinearLayout itemLayout = new LinearLayout(this);
+            itemLayout.setOrientation(LinearLayout.VERTICAL);
+            itemLayout.setPadding(16, 16, 16, 16);
 
-        List<ChackModel> lista = controller.obterSelecoes(
-                radioSim1, radioNao1,
-                radioSim2, radioNao2,
-                radioSim3, radioNao3,
-                radioSim4, radioNao4,
-                radioSim5, radioNao5
-        );
+            TextView tvCategoria = new TextView(this);
+            tvCategoria.setText("Categoria: " + item.getCategoria());
+            tvCategoria.setTextColor(getResources().getColor(android.R.color.white));
 
-        // Salvar lista no banco
-        boolean todosSucesso = true;
-        for (ChackModel c : lista) {
-            boolean res = controllerDB.salvarChack(c);
-            if (!res) {
-                todosSucesso = false;
-                break;
+            TextView tvNome = new TextView(this);
+            tvNome.setText("Item: " + item.getNome());
+            tvNome.setTextColor(getResources().getColor(android.R.color.white));
+
+            RadioGroup radioGroup = new RadioGroup(this);
+            radioGroup.setOrientation(RadioGroup.HORIZONTAL);
+
+            RadioButton rbSim = new RadioButton(this);
+            rbSim.setText("Sim");
+            RadioButton rbNao = new RadioButton(this);
+            rbNao.setText("Não");
+
+            radioGroup.addView(rbSim);
+            radioGroup.addView(rbNao);
+
+            // Seta o valor inicial do item
+            if (item.getSelecionado() != null && item.getSelecionado()) {
+                rbSim.setChecked(true);
+            } else if (item.getSelecionado() != null) {
+                rbNao.setChecked(true);
             }
+
+            // Listener para atualizar no banco ao mudar
+            radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                boolean selecionado = checkedId == rbSim.getId();
+                db.atualizarSelecionado(item.getCategoria(), item.getNome(), selecionado);
+                item.setSelecionado(selecionado);
+            });
+
+            itemLayout.addView(tvCategoria);
+            itemLayout.addView(tvNome);
+            itemLayout.addView(radioGroup);
+
+            layoutItens.addView(itemLayout);
         }
-
-        if (todosSucesso) {
-            Toast.makeText(this, "Itens salvos com sucesso!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Erro ao salvar alguns itens", Toast.LENGTH_SHORT).show();
-        }
-
-        // Passar lista para próxima Activity
-        Intent intent = new Intent(MainActivity.this, EscolhasActivity.class);
-        intent.putExtra("listaChack", new ArrayList<>(lista));
-        startActivity(intent);
-    }
-
-    // Método para verificar se pelo menos um radio do par está marcado
-    private boolean estaSelecionado(RadioButton sim, RadioButton nao) {
-        return sim.isChecked() || nao.isChecked();
     }
 }

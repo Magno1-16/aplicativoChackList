@@ -1,68 +1,80 @@
 package com.magno.aplicativochacklist.bancoDBdao;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
-import com.magno.aplicativochacklist.model.ChackModel;
-import com.magno.aplicativochacklist.model.EscolhasModel;
-import com.magno.aplicativochacklist.model.FinalModel;
-import com.magno.aplicativochacklist.model.LoginModel;
 
+import com.magno.aplicativochacklist.model.ItemModel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChackListDBController {
 
-    private ChackListDB db;
+    private DatabaseHelper dbHelper;
 
     public ChackListDBController(Context context) {
-        db = new ChackListDB(context);
+        this.dbHelper = new DatabaseHelper(context);
     }
 
-    // Salvar métodos
-    public boolean salvarChack(ChackModel chack) {
-        long id = db.salvarChack(chack);
-        return id != -1;
+    // Inserir um item no banco
+    public boolean inserirItem(ItemModel item) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nome", item.getNome());
+        values.put("categoria", item.getCategoria());
+        values.put("selecionado", item.isSelecionado() ? 1 : 0);
+
+        long resultado = db.insert("Itens", null, values);
+        db.close();
+        return resultado != -1;
     }
 
-    public boolean salvarEscolha(EscolhasModel escolha) {
-        long id = db.salvarEscolha(escolha);
-        return id != -1;
-    }
+    // Listar todos os itens
+    public List<ItemModel> listarItens() {
+        List<ItemModel> lista = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Itens", null);
 
-    public boolean salvarResultado(FinalModel resultado) {
-        long id = db.salvarResultado(resultado);
-        return id != -1;
-    }
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                String nome = cursor.getString(cursor.getColumnIndexOrThrow("nome"));
+                String categoria = cursor.getString(cursor.getColumnIndexOrThrow("categoria"));
+                boolean selecionado = cursor.getInt(cursor.getColumnIndexOrThrow("selecionado")) == 1;
 
-    public boolean salvarLogin(LoginModel login) {
-        long id = db.salvarLogin(login);
-        return id != -1;
-    }
-
-    // Buscar métodos
-    public List<ChackModel> buscarTodosChacks() {
-        return db.buscarTodosChacks();
-    }
-
-    public List<EscolhasModel> buscarTodasEscolhas() {
-        return db.buscarTodasEscolhas();
-    }
-
-    public List<FinalModel> buscarTodosResultados() {
-        return db.buscarTodosResultados();
-    }
-
-    public List<LoginModel> buscarTodosLogins() {
-        return db.buscarTodosLogins();
-    }
-
-    public boolean validarLogin(String email, String senha) {
-        List<LoginModel> lista = buscarTodosLogins();
-        for (LoginModel login : lista) {
-            if (login.getEmail().equals(email) && login.getSenha().equals(senha)) {
-                return true;
-            }
+                lista.add(new ItemModel(id, nome, categoria, selecionado));
+            } while (cursor.moveToNext());
         }
-        return false;
+
+        cursor.close();
+        db.close();
+        return lista;
     }
 
+    // Atualizar seleção do item
+    public void atualizarSelecionado(int id, boolean selecionado) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("selecionado", selecionado ? 1 : 0);
+
+        db.update("Itens", values, "id=?", new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    // Deletar um item
+    public void deletarItem(int id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("Itens", "id=?", new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    // Deletar todos os itens
+    public void deletarTodos() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("Itens", null, null);
+        db.close();
+    }
 }

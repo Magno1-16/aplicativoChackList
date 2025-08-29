@@ -1,6 +1,5 @@
 package com.magno.aplicativochacklist.view;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,22 +11,22 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplicativochacklist.R;
-import com.magno.aplicativochacklist.controller.LoginController;
+import com.magno.aplicativochacklist.bancoDBdao.ChackListDBController;
+import com.magno.aplicativochacklist.model.LoginModel;
 
 public class RegistroActivity extends AppCompatActivity {
 
     private EditText nomeEditText, emailEditText, senhaEditText;
     private Button registrarButton;
     private TextView tvJaTenhoConta;
-    private LoginController controller;
+    private ChackListDBController db;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
-        controller = new LoginController(this);
+        db = new ChackListDBController(this);
 
         nomeEditText = findViewById(R.id.nomeC);
         emailEditText = findViewById(R.id.emailC);
@@ -42,25 +41,23 @@ public class RegistroActivity extends AppCompatActivity {
 
             if (TextUtils.isEmpty(nome) || TextUtils.isEmpty(email) || TextUtils.isEmpty(senha)) {
                 Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-            } else if (!emailValido(email)) {
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 Toast.makeText(this, "Digite um email válido", Toast.LENGTH_SHORT).show();
             } else {
-                controller.salvarLogin(email, senha);
-                Toast.makeText(this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                boolean ok = db.salvarLogin(new LoginModel(email, senha));
+                if (ok) {
+                    Toast.makeText(this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
+                    finish();
+                } else {
+                    Toast.makeText(this, "Falha ao cadastrar (email já existe?)", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         tvJaTenhoConta.setOnClickListener(v -> {
-            Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
             finish();
         });
-    }
-
-    public boolean emailValido(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.aplicativochacklist.R;
 
 public class SplashActivity extends AppCompatActivity {
-    public static final int TIME_OUT_SPLASH = 3000;
+    public static final int TIME_OUT_SPLASH = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,6 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
 
-        comutarTelaSplash();
-    }
-
-    private void comutarTelaSplash() {
         new Handler().postDelayed(() -> {
             startActivity(new Intent(SplashActivity.this, RegistroActivity.class));
             finish();

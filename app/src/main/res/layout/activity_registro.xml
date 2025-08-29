@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Register Account"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="34sp"
             android:layout_marginBottom="24dp" />
 
@@ -34,8 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="Nome:"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
             android:layout_marginBottom="16dp" />
 
         <EditText
@@ -43,8 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="Email:"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
             android:layout_marginBottom="16dp" />
 
         <EditText
@@ -52,8 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="Senha:"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
             android:layout_marginBottom="24dp" />
 
         <Button
@@ -61,7 +61,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Registrar"
-            android:backgroundTint="#31AAA0" />
+            android:backgroundTint="#31AAA0"
+            android:textColor="@android:color/white"/>
 
         <TextView
             android:id="@+id/tvJaTenhoConta"
@@ -69,8 +70,7 @@
             android:layout_height="wrap_content"
             android:text="Já tem uma conta? Faça login"
             android:textColor="#BBDEFB"
-            />
-
-
+            android:layout_marginTop="16dp"/>
     </LinearLayout>
+
 </ScrollView>

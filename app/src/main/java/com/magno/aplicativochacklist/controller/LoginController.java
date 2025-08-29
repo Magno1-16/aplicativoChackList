@@ -1,41 +1,48 @@
 package com.magno.aplicativochacklist.controller;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.EditText;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.magno.aplicativochacklist.bancoDBdao.DatabaseHelper;
+import com.magno.aplicativochacklist.model.LoginModel;
 
 public class LoginController {
 
-    private static final String NOME_PREFERENCES = "pref_listaVip";
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
+    private DatabaseHelper dbHelper;
 
-    public LoginController(Activity activity) {
-        preferences = activity.getSharedPreferences(NOME_PREFERENCES, 0);
-        editor = preferences.edit();
+    public LoginController(Context context) {
+        dbHelper = new DatabaseHelper(context);
     }
 
-    public void salvarLogin(String email, String senha) {
-        editor.putString("email", email);
-        editor.putString("senha", senha);
-        editor.apply();
-        Log.d("LoginController", "Dados salvos: " + email);
+    // Inserir usuário
+    public boolean registrarUsuario(LoginModel usuario) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nome", usuario.getNome());
+        values.put("email", usuario.getEmail());
+        values.put("senha", usuario.getSenha());
+
+        long result = db.insert(DatabaseHelper.TABLE_LOGIN, null, values);
+        db.close();
+        return result != -1;
     }
 
-    public String getEmailSalvo() {
-        return preferences.getString("email", "");
-    }
+    // Verificar login
+    public boolean autenticar(String email, String senha) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(
+                DatabaseHelper.TABLE_LOGIN,
+                new String[]{"id"},
+                "email=? AND senha=?",
+                new String[]{email, senha},
+                null, null, null
+        );
 
-    public String getSenhaSalva() {
-        return preferences.getString("senha", "");
-    }
-
-    public void limparButton(EditText email, EditText senha) {
-        email.setText("");
-        senha.setText("");
-        editor.clear();
-        editor.apply();
-        Log.d("LoginController", "Dados limpos");
+        boolean autenticado = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return autenticado;
     }
 }

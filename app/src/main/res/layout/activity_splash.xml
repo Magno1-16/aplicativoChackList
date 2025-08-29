@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/crie_uma_tela_de_carregamento_de_um_aplicativo_mobile_que_envolva_chacklist_de_viagem"
-    android:orientation="horizontal"
-    tools:context="com.magno.aplicativochacklist.view.MainActivity">
+    android:orientation="vertical">
 </LinearLayout>

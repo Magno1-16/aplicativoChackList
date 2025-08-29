@@ -1,3 +1,4 @@
+<!-- app/src/main/AndroidManifest.xml -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -12,28 +13,21 @@
         android:theme="@style/Theme.AplicativoChackList"
         tools:targetApi="31">
 
-        <activity android:name="com.magno.aplicativochacklist.view.SplashActivity"
+        <activity
+            android:name="com.magno.aplicativochacklist.view.SplashActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name="com.magno.aplicativochacklist.view.RegistroActivity"
-            android:exported="true"/>
+        <activity android:name="com.magno.aplicativochacklist.view.RegistroActivity" android:exported="true"/>
+        <activity android:name="com.magno.aplicativochacklist.view.LoginActivity" android:exported="true"/>
+        <activity android:name="com.magno.aplicativochacklist.view.MainActivity" android:exported="true"/>
+        <activity android:name="com.magno.aplicativochacklist.view.CadastroItemActivity" android:exported="true"/>
+        <activity android:name="com.magno.aplicativochacklist.view.FinalActivity" android:exported="true"/>
 
-        <activity android:name="com.magno.aplicativochacklist.view.LoginActivity"
-            android:exported="true"/>
-
-        <activity android:name="com.magno.aplicativochacklist.view.MainActivity"
-            android:exported="true" />
-
-        <activity android:name="com.magno.aplicativochacklist.view.EscolhasActivity"
-            android:exported="true"/>
-
-        <activity android:name="com.magno.aplicativochacklist.view.FinalActivity"
-            android:exported="true"/>
+        <!-- REMOVIDA: com.magno.aplicativochacklist.view.EscolhasActivity -->
     </application>
-
 </manifest>
